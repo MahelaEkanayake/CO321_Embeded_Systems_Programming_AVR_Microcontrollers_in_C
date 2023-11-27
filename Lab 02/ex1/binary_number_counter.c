@@ -1,39 +1,35 @@
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
 
-int counter = 0;
+int main(void){
 
-int main(void) {
+  	DDRB = 0x3f;
+  	DDRD &= ~(1<<2);
+  
+  	PORTB |= 0x00;
+  
+  	int counter = 0;
+  
+  	int count_enable = 1;
+  
+  	while(1){
     
-    DDRD &= ~(1 << 2);
-
-    PORTD |= (1 << 2);
-
-    DDRB |= (0b00111111);
-    PORTB = 0b00000000;
-
-    int access_count = 1;
-
-    while (1) {
-        if (PIND & (1 << 2)){
-            if(access_count==1){
-                counter++;
-                if(counter==64)
-                    counter = 0;
-                access_count = 0;
+    	if(PIND & (1<<2)){
+          
+      		_delay_ms(DELAY);
+          
+          	if(count_enable==1){
+            	counter++;
+          		if(counter == 64)
+              		counter = 0;
+              	count_enable = 0;
             }
+      		
+          	if(count_enable == 0)      		
+      			PORTB = counter;
         }else{
-
-            if(access_count==0){
-                PORTB = 0b00000000;
-                PORTB = counter;
-                access_count = 1;
-            }
-
-            
-        }   
+        	count_enable = 1;
+        }
     }
-
-    return 0;
-}
-
-
+  }
