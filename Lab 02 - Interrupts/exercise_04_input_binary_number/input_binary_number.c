@@ -26,7 +26,7 @@ int main(void) {
 }
 
 ISR(INT0_vect) {
-    if (ledNumber >= 6) {
+    if (ledNumber >= 6){
         PORTB = 0;
         ledNumber = 0;
     }
