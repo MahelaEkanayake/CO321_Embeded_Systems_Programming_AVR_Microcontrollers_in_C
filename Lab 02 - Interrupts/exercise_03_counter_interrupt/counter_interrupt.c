@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 uint8_t pressCount = 0;
 
@@ -23,9 +24,10 @@ int main(void){
 }
 
 ISR(INT0_vect){
+    PORTB = ~(0b111111);
     pressCount++;
     if(pressCount>=64){
-        pressCount = 0;
+         pressCount = 0;
     }
     PORTB = pressCount;
 }
