@@ -7,7 +7,7 @@ ISR(TIMER0_OVF_vect) {
 
     count++;
 
-    if(count>=125){
+    if(count>=25){
         PORTB ^= (1<<0);
         count = 0;
     }
